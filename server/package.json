@@ -1,16 +1,17 @@
 {
-  "name" : "server",
-  "version" : "1.0.0",
-  "description" : "Tarea de Progra IV. CRUD de Articulo con React y Node.js",
-  "main" : "Articulo.js",
-  "script" : {
-    "test" : "echo \"Error: no test specified\" && exit 1"
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Tarea de Progra IV. CRUD de Articulo con React y Node.js",
+  "main": "Articulo.js",
+  "script": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author" : "Jamyr",
-  "license" : "ISC",
+  "author": "Jamyr",
+  "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "moment": "^2.30.1",
     "mysql": "^2.18.1"
   }
 }

@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const mysql = require("mysql");
 const cors = require("cors");
+const moment = require('moment');
 
 app.use(cors());
 app.use(express.json());
@@ -26,9 +27,17 @@ app.post("/agregar", (req, res) => {
     const tema = req.body.tema;
     const descripcion = req.body.descripcion;
     const nombreAutor = req.body.nombreAutor;
-    const fecha = req.body.fecha;
     const acercaDelAutor = req.body.acercaDelAutor;
     const textoArticulo = req.body.textoArticulo;
+
+    //Validar la fecha antes de actualizar los datos:
+    if (!moment(req.body.fecha, "DD-MM-YYYY", true).isValid()) {
+        res.send("La fecha proporcionada no es válida.");
+        return;
+    }
+
+    //Formatear fecha:
+    const fecha = moment(req.body.fecha, "DD-MM-YYYY").format("YYYY-MM-DD");
 
     bd.query(
         "INSERT INTO " + tabla + " (" + atributosTabla + ") VALUES (?,?,?,?,?,?,?,?)", 
@@ -50,6 +59,13 @@ app.get("/cargar", (req, res) => {
             console.log(error);
             res.send("Ocurrió un error al cargar los artículos. Inténtelo otra vez.");
         }else{
+            result.forEach(articulo => {
+                //Formatear fechas antes de enviar los datos:
+                if (articulo.fecha) {
+                    articulo.fecha = moment(articulo.fecha).format("DD-MM-YYYY");
+                }
+            });
+
             res.send(result)
         }
     }
@@ -61,10 +77,18 @@ app.put("/actualizar", (req, res) => {
     const tema = req.body.tema;
     const descripcion = req.body.descripcion;
     const nombreAutor = req.body.nombreAutor;
-    const fecha = req.body.fecha;
     const acercaDelAutor = req.body.acercaDelAutor;
     const textoArticulo = req.body.textoArticulo;
     const idArticulo = req.body.idArticulo;
+
+    //Validar la fecha antes de actualizar los datos:
+    if (!moment(req.body.fecha, "DD-MM-YYYY", true).isValid()) {
+        res.send("La fecha proporcionada no es válida.");
+        return;
+    }
+
+    //Formatear fecha:
+    const fecha = moment(req.body.fecha, "DD-MM-YYYY").format("YYYY-MM-DD");
 
     bd.query(
         "UPDATE " + tabla + " SET " + atributosTablaSET + " WHERE idArticulo = ?", 
