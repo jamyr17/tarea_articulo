@@ -6,7 +6,7 @@ const moment = require('moment');
 
 app.use(cors());
 app.use(express.json());
-app.listen(3000, () => {
+app.listen(7000, () => {
     console.log("Corriendo Server API Rest para Articulo.");
 });
 
