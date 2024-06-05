@@ -1,11 +1,13 @@
-import './App.css';
 
-function App() {
+import React from 'react';
+import { FormArticulo } from './Paginas/FormArticulo';
+import { ListarArticulo } from './Paginas/ListarArticulo';
+
+export const App = () => {
   return (
-    <div className="App">
-      hola mundo
-    </div>
-  );
-}
+    <>
+      <ListarArticulo />
 
-export default App;
+    </>
+  )
+}
