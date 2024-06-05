@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import ArticleTable from './ArticleTable';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import './App.css';
+import { format } from 'date-fns'; 
+
 function App() {
   const [formData, setFormData] = useState({
     identificador: '',
+    fecha: null,
     titulo: '',
     tema: '',
     descripcion: '',
@@ -25,6 +30,13 @@ function App() {
     });
   };
 
+  const handleDateChange = (date) => {
+    setFormData({
+      ...formData,
+      fecha: date
+    });
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +48,10 @@ function App() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          ...formData,
+          fecha: formData.fecha ? format(formData.fecha, 'yyyy-MM-dd') : ''
+        })
       });
   
       const result = await response.text();
@@ -62,6 +77,15 @@ function App() {
             <label htmlFor="identificador">Identificador:</label><br />
             <input type="text" id="identificador" name="identificador" value={formData.identificador} onChange={handleChange} required /><br />
 
+            <label htmlFor="fecha">Fecha:</label><br />
+            <DatePicker
+              selected={formData.fecha}
+              onChange={handleDateChange}
+              dateFormat="yyyy-MM-dd"
+              isClearable
+              placeholderText="Selecciona una fecha"
+            /><br />
+            
             <label htmlFor="titulo">Título:</label><br />
             <input type="text" id="titulo" name="titulo" value={formData.titulo} onChange={handleChange} required /><br />
 

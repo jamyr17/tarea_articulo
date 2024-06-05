@@ -31,13 +31,13 @@ app.post("/agregar", (req, res) => {
     const textoArticulo = req.body.textoArticulo;
 
     //Validar la fecha antes de actualizar los datos:
-    if (!moment(req.body.fecha, "DD-MM-YYYY", true).isValid()) {
+    if (!moment(req.body.fecha, "YYYY-MM-DD", true).isValid()) {
         res.send("La fecha proporcionada no es válida.");
         return;
     }
 
     //Formatear fecha:
-    const fecha = moment(req.body.fecha, "DD-MM-YYYY").format("YYYY-MM-DD");
+    const fecha = moment(req.body.fecha, "YYYY-MM-DD").format("YYYY-MM-DD");
 
     bd.query(
         "INSERT INTO " + tabla + " (" + atributosTabla + ") VALUES (?,?,?,?,?,?,?,?)", 
@@ -54,22 +54,23 @@ app.post("/agregar", (req, res) => {
 })
 
 app.get("/cargar", (req, res) => {
-    bd.query("SELECT * FROM " + tabla), (error, result) => {
-        if(error){
+    bd.query("SELECT * FROM " + tabla, (error, result) => {
+        if (error) {
             console.log(error);
             res.send("Ocurrió un error al cargar los artículos. Inténtelo otra vez.");
-        }else{
+        } else {
             result.forEach(articulo => {
-                //Formatear fechas antes de enviar los datos:
+                // Formatear fechas antes de enviar los datos:
                 if (articulo.fecha) {
                     articulo.fecha = moment(articulo.fecha).format("DD-MM-YYYY");
                 }
             });
 
-            res.send(result)
+            res.send(result);
         }
-    }
-})
+    });
+});
+
 
 app.put("/actualizar", (req, res) => {
     const identificador = req.body.identificador;

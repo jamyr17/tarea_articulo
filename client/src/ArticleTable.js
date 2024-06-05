@@ -29,6 +29,7 @@ function ArticleTable() {
         <thead>
           <tr>
             <th>Identificador</th>
+            <th>Fecha</th>
             <th>Título</th>
             <th>Tema</th>
             <th>Descripción</th>
@@ -40,6 +41,7 @@ function ArticleTable() {
           {articles.map((article, index) => (
             <tr key={index}>
               <td>{article.identificador}</td>
+              <td>{article.fecha}</td>
               <td>{article.titulo}</td>
               <td>{article.tema}</td>
               <td>{article.descripcion}</td>
